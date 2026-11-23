@@ -27,28 +27,38 @@
      - 📅 Timestamp: Date, Time & Accuracy index (`±5m`)
      - 🏛️ Taluk & Landmark name
    - Auto-syncs the pinned OpenStreetMap coordinates to the photo's exact capture location.
-4. **Interactive GPS Location & Draggable Map Pin**:
+4. **Immediate Emergency Phase on the Picture Itself**:
+   - Just by looking at the picture, the emergency urgency phase is immediately visible:
+     - 🚨 **PHASE 4: EMERGENCY HAZARD (12h SLA)**: Bold pulsing red banner across the photo with flashing flame icon and 12-hour urgent dispatch timer.
+     - ⚠️ **PHASE 3: HIGH PRIORITY (24h SLA)**: High-contrast orange banner across the photo.
+     - ⚡ **PHASE 2: MEDIUM CIVIC (48h SLA)**: Amber banner.
+     - ℹ️ **PHASE 1: ROUTINE ACTION (72h SLA)**: Green banner.
+5. **Tumkur Taluks & Category Explorer**:
+   - Interactive directory featuring all 11 Tumkur district taluks.
+   - Shows active categories, open issue counters, and glowing emergency alerts per taluk.
+   - One-click filtering for taluks, categories, and wards.
+6. **Interactive GPS Location & Draggable Map Pin**:
    - Auto-detects GPS coordinates with one click.
    - Draggable OpenStreetMap pin powered by Leaflet to pinpoint exact pothole or leak locations.
-4. **AI-Assisted Classification & Spatial Duplicate Detection**:
+7. **AI-Assisted Classification & Spatial Duplicate Detection**:
    - Bilingual NLP classifier auto-suggests category, department, and urgency level from description keywords or Gemini API.
    - **Haversine Distance Engine**: Detects existing unresolved issues within 75–100m to prevent duplicate tickets and encourage community upvoting.
-5. **Rigorous Issue Lifecycle & SLA Timers**:
+8. **Rigorous Issue Lifecycle & SLA Timers**:
    - `SUBMITTED` &rarr; `VERIFIED` &rarr; `ASSIGNED` &rarr; `IN_PROGRESS` &rarr; `RESOLVED` &rarr; `CLOSED`.
    - Real-time SLA countdown timers with overdue alert indicators.
    - **Citizen Reopen Option**: If a citizen is dissatisfied with a resolution, they can reopen the ticket with notes.
-6. **Officer Dashboard & Proof of Resolution**:
+9. **Officer Dashboard & Proof of Resolution**:
    - Department officers can view assigned queues, dispatch field crews, and upload photographic proof of resolution with field notes before closing.
-7. **District Administration Governance & CSV Export**:
-   - Taluk-wise distribution and resolution rates across all 11 Tumkur taluks.
-   - Department SLA performance leaderboard.
-   - 1-click export of grievance reports to CSV.
-8. **Public Transparency & Accountability Portal**:
-   - Live public statistics comparing resolved vs. pending complaints.
-   - Published SLA standards by department.
-9. **Offline-First Resilience (Rural Connectivity Support)**:
-   - Built as an installable PWA with service worker caching.
-   - Offline submission queue stored in `localStorage` / `IndexedDB` that auto-synchronizes when internet connectivity resumes (`online` event listener).
+10. **District Administration Governance & CSV Export**:
+    - Taluk-wise distribution and resolution rates across all 11 Tumkur taluks.
+    - Department SLA performance leaderboard.
+    - 1-click export of grievance reports to CSV.
+11. **Public Transparency & Accountability Portal**:
+    - Live public statistics comparing resolved vs. pending complaints.
+    - Published SLA standards by department.
+12. **Offline-First Resilience (Rural Connectivity Support)**:
+    - Built as an installable PWA with service worker caching.
+    - Offline submission queue stored in `localStorage` / `IndexedDB` that auto-synchronizes when internet connectivity resumes (`online` event listener).
 
 ---
 
@@ -196,7 +206,8 @@ docker-compose up --build -d
     └── src/
         ├── i18n/             # react-i18next setup with kn.json & en.json
         ├── context/          # AuthContext (roles) & OfflineContext (sync queue)
-        ├── components/       # Navbar, BottomNav, VoiceInput, IssueCard, IssueMap, Timeline
+        ├── components/       # Navbar, BottomNav, VoiceInput, GeoCameraModal, IssueCard, IssueMap, Timeline
+        ├── utils/            # geoTag.js (Canvas watermark engine)
         └── pages/            # Home, ReportIssue, IssueDetail, MapView, MyReports,
                               # OfficerDashboard, AdminDashboard, Transparency, Login
 ```
