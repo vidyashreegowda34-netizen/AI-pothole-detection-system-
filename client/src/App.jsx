@@ -14,6 +14,9 @@ import OfficerDashboard from './pages/OfficerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Transparency from './pages/Transparency';
 import Login from './pages/Login';
+import CctvMonitoring from './pages/CctvMonitoring';
+import IotGrid from './pages/IotGrid';
+import PredictiveRepair from './pages/PredictiveRepair';
 
 export default function App() {
   return (
@@ -32,6 +35,9 @@ export default function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/transparency" element={<Transparency />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/cctv" element={<CctvMonitoring />} />
+          <Route path="/iot" element={<IotGrid />} />
+          <Route path="/predictive" element={<PredictiveRepair />} />
         </Routes>
       </main>
 

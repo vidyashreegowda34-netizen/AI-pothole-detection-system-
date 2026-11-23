@@ -13,6 +13,9 @@ import {
   Building2,
   FileText,
   Eye,
+  Video,
+  Activity,
+  TrendingUp,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -88,6 +91,36 @@ export default function Navbar() {
             >
               <Eye className="w-4 h-4 text-emerald-600" />
               <span>{t('nav.transparency')}</span>
+            </Link>
+
+            <Link
+              to="/cctv"
+              className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                isActive('/cctv') ? 'text-red-700 bg-red-50' : 'text-slate-600 hover:text-red-600 hover:bg-slate-50'
+              }`}
+            >
+              <Video className="w-3.5 h-3.5 text-red-500" />
+              <span>{i18n.language === 'kn' ? 'ಸಿಸಿಟಿವಿ' : 'CCTV'}</span>
+            </Link>
+
+            <Link
+              to="/iot"
+              className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                isActive('/iot') ? 'text-blue-700 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+              }`}
+            >
+              <Activity className="w-3.5 h-3.5 text-blue-500" />
+              <span>IoT</span>
+            </Link>
+
+            <Link
+              to="/predictive"
+              className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                isActive('/predictive') ? 'text-emerald-700 bg-emerald-50' : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+              <span>{i18n.language === 'kn' ? 'ಮುನ್ಸೂಚನೆ' : 'Predictive'}</span>
             </Link>
 
             {/* Role specific links */}

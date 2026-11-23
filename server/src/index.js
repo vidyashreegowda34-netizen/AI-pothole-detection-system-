@@ -10,6 +10,7 @@ const talukRoutes = require('./routes/talukRoutes');
 const deptRoutes = require('./routes/deptRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const smartCityRoutes = require('./routes/smartCityRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -48,6 +49,7 @@ app.use('/api/taluks', talukRoutes);
 app.use('/api/departments', deptRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/smartcity', smartCityRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

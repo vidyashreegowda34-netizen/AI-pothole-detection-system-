@@ -151,5 +151,13 @@
     "alligatorCrack": "Surface Distress",
     "phaseEscalation": "Automated Phase Escalation",
     "modelLabel": "Ultralytics YOLO11n (Nano 640x640)"
+  },
+  "smartCity": {
+    "cctvNav": "Live CCTV",
+    "iotNav": "Smart IoT",
+    "predictiveNav": "Predictive Repair",
+    "cctvTitle": "Live Highway & Intersection CCTV Grid",
+    "iotTitle": "Municipal IoT Sensor Telemetry Mesh",
+    "predictiveTitle": "Predictive Road Degradation & Wear Modeling"
   }
 }

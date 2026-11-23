@@ -68,6 +68,30 @@ async function runTests() {
         body: JSON.stringify({ query: 'What is the PWD turnaround SLA for pothole repair?' }),
       }).then((r) => r.json());
       console.log(`✅ RAG Civic Policy Engine: Retrieved "${ragRes.matchedPolicy?.title}" (SLA: ${ragRes.matchedPolicy?.standardSLA})`);
+
+      // 6f. Smart City CCTV & Auto-Ticketing Test
+      const cctvRes = await fetch(`${baseUrl}/smartcity/cctv`).then((r) => r.json());
+      console.log(`✅ Smart City CCTV Streams: ${cctvRes.count} active cameras streaming (${cctvRes.cameras?.[0]?.nameEn})`);
+
+      const cctvReportRes = await fetch(`${baseUrl}/smartcity/cctv/auto-report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cameraName: 'Ashoka Circle CCTV',
+          hazardClass: 'pothole',
+          severity: 'CRITICAL',
+          depthEstimate: 'Deep Crater (~14 cm)',
+        }),
+      }).then((r) => r.json());
+      console.log(`✅ Smart City CCTV Auto-Dispatch: Generated ticket ${cctvReportRes.issue?.trackingNumber}`);
+
+      // 6g. Smart City IoT Sensors Test
+      const iotRes = await fetch(`${baseUrl}/smartcity/iot`).then((r) => r.json());
+      console.log(`✅ Smart City IoT Grid: ${iotRes.count} telemetry sensors online`);
+
+      // 6h. Predictive Road Infrastructure Index Test
+      const predRes = await fetch(`${baseUrl}/smartcity/predictive`).then((r) => r.json());
+      console.log(`✅ Predictive Road Degradation Index: District Avg Health ${predRes.avgHealthScore}/100, Forecast: ${predRes.totalPotholesPredicted30Days} potholes predicted in 30 days`);
       const dupCheck = await fetch(`${baseUrl}/ai/check-duplicate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
