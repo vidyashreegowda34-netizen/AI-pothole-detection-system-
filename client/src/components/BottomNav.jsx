@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
-import { Home, PlusCircle, Map, FileText, UserCheck, BarChart2 } from 'lucide-react';
+import { Home, PlusCircle, Map, FileText, UserCheck, BarChart2, User } from 'lucide-react';
 
 export default function BottomNav() {
   const { t } = useTranslation();
@@ -72,9 +72,9 @@ export default function BottomNav() {
             <BarChart2 className="w-5 h-5 mb-0.5" />
             <span>{t('nav.admin')}</span>
           </NavLink>
-        ) : (
+        ) : isAuthenticated ? (
           <NavLink
-            to={isAuthenticated ? "/my-reports" : "/login"}
+            to="/my-reports"
             className={({ isActive }) =>
               `flex flex-col items-center py-1.5 px-2 rounded-lg text-[10px] font-medium transition-colors ${
                 isActive ? 'text-amber-600 font-bold' : 'text-slate-500'
@@ -83,6 +83,18 @@ export default function BottomNav() {
           >
             <FileText className="w-5 h-5 mb-0.5" />
             <span>{t('nav.myReports')}</span>
+          </NavLink>
+        ) : (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `flex flex-col items-center py-1.5 px-2 rounded-lg text-[10px] font-medium transition-colors ${
+                isActive ? 'text-amber-600 font-bold' : 'text-slate-500'
+              }`
+            }
+          >
+            <User className="w-5 h-5 mb-0.5" />
+            <span>{t('nav.login')}</span>
           </NavLink>
         )}
       </div>

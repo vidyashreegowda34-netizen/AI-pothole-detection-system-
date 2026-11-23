@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('tumakuru_token');
     localStorage.removeItem('tumakuru_user');
+    localStorage.removeItem('tumakuru_guest');
   };
 
   const isCitizen = user?.role === 'CITIZEN';

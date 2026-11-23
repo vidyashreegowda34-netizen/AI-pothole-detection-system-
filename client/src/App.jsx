@@ -1,5 +1,6 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import OfflineBanner from './components/OfflineBanner';
@@ -19,6 +20,17 @@ import IotGrid from './pages/IotGrid';
 import PredictiveRepair from './pages/PredictiveRepair';
 
 export default function App() {
+  const { isAuthenticated, loading } = useAuth();
+  const isGuest = localStorage.getItem('tumakuru_guest') === 'true';
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       <Navbar />
@@ -26,7 +38,17 @@ export default function App() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              !isAuthenticated && !isGuest ? (
+                <Navigate to="/login" replace />
+              ) : (
+                <Home />
+              )
+            }
+          />
+          <Route path="/home" element={<Home />} />
           <Route path="/report" element={<ReportIssue />} />
           <Route path="/issue/:id" element={<IssueDetail />} />
           <Route path="/map" element={<MapView />} />

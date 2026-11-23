@@ -74,8 +74,9 @@ export default function Login() {
       });
 
       if (res.data.success) {
+        localStorage.removeItem('tumakuru_guest');
         loginWithToken(res.data.token, res.data.user);
-        navigate(redirectPath);
+        navigate(redirectPath === '/login' ? '/' : redirectPath);
       }
     } catch (err) {
       setErrorMsg(err.response?.data?.message || 'Invalid OTP');
@@ -97,6 +98,7 @@ export default function Login() {
       });
 
       if (res.data.success) {
+        localStorage.removeItem('tumakuru_guest');
         loginWithToken(res.data.token, res.data.user);
         if (res.data.user.role === 'ADMIN') {
           navigate('/admin');
@@ -121,12 +123,14 @@ export default function Login() {
           otp: '1234',
         });
         if (res.data.success) {
+          localStorage.removeItem('tumakuru_guest');
           loginWithToken(res.data.token, res.data.user);
-          navigate('/');
+          navigate(redirectPath === '/login' ? '/' : redirectPath);
         }
       } else {
         const res = await api.post('/auth/officer-login', { identifier, password });
         if (res.data.success) {
+          localStorage.removeItem('tumakuru_guest');
           loginWithToken(res.data.token, res.data.user);
           navigate(role === 'ADMIN' ? '/admin' : '/officer');
         }
@@ -134,6 +138,11 @@ export default function Login() {
     } catch (err) {
       setErrorMsg('Demo login failed');
     }
+  };
+
+  const handleContinueAsGuest = () => {
+    localStorage.setItem('tumakuru_guest', 'true');
+    navigate(redirectPath === '/login' ? '/' : redirectPath);
   };
 
   return (
@@ -351,6 +360,18 @@ export default function Login() {
             🏛️ District Admin (Collector)
           </button>
         </div>
+      </div>
+
+      {/* Continue as Guest Button */}
+      <div className="pt-1">
+        <button
+          type="button"
+          onClick={handleContinueAsGuest}
+          className="w-full py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-extrabold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center space-x-2 active:scale-95"
+        >
+          <span>{isKannada ? '👀 ಅತಿಥಿಯಾಗಿ ಮುಂದುವರಿಯಿರಿ (Explore as Guest)' : '👀 Continue as Guest / Explore Public Feed'}</span>
+          <ArrowRight className="w-4 h-4 text-slate-400" />
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import IssueCard from '../components/IssueCard';
 import {
@@ -20,10 +21,12 @@ import {
   AlertTriangle,
   Layers,
   Zap,
+  User,
 } from 'lucide-react';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const isKannada = i18n.language === 'kn';
 
@@ -137,9 +140,47 @@ export default function Home() {
               <Map className="w-4 h-4 text-amber-200" />
               <span>{t('hero.ctaMap')}</span>
             </Link>
+
+            {!isAuthenticated && (
+              <Link
+                to="/login"
+                className="flex items-center space-x-2 bg-black/40 hover:bg-black/60 border border-amber-300/40 text-amber-200 px-5 py-3 rounded-xl font-bold text-sm backdrop-blur-md active:scale-95 transition-all"
+              >
+                <User className="w-4 h-4 text-amber-300" />
+                <span>{isKannada ? '🔑 ಲಾಗಿನ್ / ಖಾತೆ' : '🔑 Sign In / Login'}</span>
+              </Link>
+            )}
           </div>
         </div>
       </section>
+
+      {/* Guest Sign-in Alert Prompt */}
+      {!isAuthenticated && (
+        <div className="bg-amber-500/10 border-2 border-amber-400/50 p-4 rounded-3xl flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm animate-fade-in shadow-xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-xs shrink-0">
+              🔑
+            </div>
+            <div>
+              <p className="font-extrabold text-slate-900 text-sm">
+                {isKannada ? 'ನಾಗರಿಕ ಅಥವಾ ಅಧಿಕಾರಿ ಲಾಗಿನ್' : 'Sign in as Citizen or Department Officer'}
+              </p>
+              <p className="text-slate-600 text-xs mt-0.5">
+                {isKannada
+                  ? 'ದೂರುಗಳನ್ನು ದಾಖಲಿಸಲು, ಅಪ್‌ವೋಟ್ ಮಾಡಲು ಮತ್ತು ಪರಿಹಾರದ ಸ್ಥಿತಿ ತಿಳಿಯಲು ದಯವಿಟ್ಟು ಲಾಗಿನ್ ಆಗಿ.'
+                  : 'Log in with mobile OTP or official credentials to submit grievances, upvote, or access the officer dashboard.'}
+              </p>
+            </div>
+          </div>
+
+          <Link
+            to="/login"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 active:scale-95 transition-all shrink-0"
+          >
+            {isKannada ? 'ಲಾಗಿನ್ ಪುಟ ತೆರೆಯಿರಿ' : 'Open Login Page'}
+          </Link>
+        </div>
+      )}
 
       {/* District Analytics Summary Counter Bar */}
       {summary && (

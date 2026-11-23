@@ -123,6 +123,18 @@ export default function Navbar() {
               <span>{i18n.language === 'kn' ? 'ಮುನ್ಸೂಚನೆ' : 'Predictive'}</span>
             </Link>
 
+            {!isAuthenticated && (
+              <Link
+                to="/login"
+                className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                  isActive('/login') ? 'text-amber-700 bg-amber-50' : 'text-slate-700 hover:text-amber-600 hover:bg-slate-50'
+                }`}
+              >
+                <User className="w-4 h-4 text-amber-600" />
+                <span>{t('nav.login')}</span>
+              </Link>
+            )}
+
             {/* Role specific links */}
             {isOfficer && (
               <Link
