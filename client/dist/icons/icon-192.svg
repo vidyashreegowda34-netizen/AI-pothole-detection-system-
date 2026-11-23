@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="36" fill="#d97706"/>
+  <circle cx="96" cy="85" r="42" fill="#ffffff" opacity="0.95"/>
+  <path d="M96 55 C82 55 72 65 72 79 C72 98 96 118 96 118 C96 118 120 98 120 79 C120 65 110 55 96 55 Z" fill="#ea580c"/>
+  <circle cx="96" cy="78" r="12" fill="#ffffff"/>
+  <text x="96" y="152" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">ತುಮಕೂರು</text>
+</svg>
