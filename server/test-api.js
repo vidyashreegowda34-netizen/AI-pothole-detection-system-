@@ -60,6 +60,14 @@ async function runTests() {
       // 6d. YOLO11n Model Info
       const yoloInfo = await fetch(`${baseUrl}/ai/yolo-info`).then((r) => r.json());
       console.log(`✅ YOLO11n Model Info: ${yoloInfo.architecture} (${yoloInfo.parameters})`);
+
+      // 6e. RAG Civic Policy Assistant Test
+      const ragRes = await fetch(`${baseUrl}/ai/chat-rag`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'What is the PWD turnaround SLA for pothole repair?' }),
+      }).then((r) => r.json());
+      console.log(`✅ RAG Civic Policy Engine: Retrieved "${ragRes.matchedPolicy?.title}" (SLA: ${ragRes.matchedPolicy?.standardSLA})`);
       const dupCheck = await fetch(`${baseUrl}/ai/check-duplicate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

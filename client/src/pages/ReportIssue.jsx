@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useOffline } from '../context/OfflineContext';
@@ -31,15 +31,16 @@ export default function ReportIssue() {
   const { isAuthenticated } = useAuth();
   const { isOnline, addToQueue } = useOffline();
   const navigate = useNavigate();
+  const location = useLocation();
   const isKannada = i18n.language === 'kn';
 
   // Form States
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(location.state?.prefillTitle || '');
   const [description, setDescription] = useState('');
   const [talukId, setTalukId] = useState('');
   const [wardId, setWardId] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [urgency, setUrgency] = useState('MEDIUM');
+  const [urgency, setUrgency] = useState(location.state?.prefillUrgency || 'MEDIUM');
   const [addressText, setAddressText] = useState('');
 
   // Location Coordinates (Default: Tumkur City Center)

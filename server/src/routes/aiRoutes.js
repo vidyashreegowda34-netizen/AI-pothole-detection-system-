@@ -13,4 +13,8 @@ router.post('/yolo11-detect', upload.single('photo'), aiController.detectYolo11)
 router.post('/yolo-detect', upload.single('photo'), aiController.detectYolo11);
 router.get('/yolo-info', aiController.getYoloModelInfo);
 
+// RAG Civic Policy & Complaint Automation
+router.post('/chat-rag', aiController.queryRag);
+router.post('/rag-query', aiController.queryRag);
+
 module.exports = router;

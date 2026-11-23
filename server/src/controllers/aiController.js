@@ -1,5 +1,6 @@
 const { suggestCategoryAndDepartment, checkDuplicateIssues, evaluateEmergencyPhase } = require('../services/aiService');
 const { detectPotholesYOLO11, YOLO11N_CONFIG } = require('../services/yoloService');
+const { queryCivicPolicyRAG } = require('../services/ragService');
 
 exports.suggest = async (req, res) => {
   try {
@@ -97,4 +98,22 @@ exports.getYoloModelInfo = async (req, res) => {
     inputSize: [640, 640],
     parameters: '2.6 Million Parameters (Optimized for Mobile PWA & Low-Latency Edge Inference)',
   });
+};
+
+/**
+ * RAG Civic Policy Assistant Query
+ * Retrieves municipal bylaws, SLAs, and auto-generates structured complaints
+ */
+exports.queryRag = async (req, res) => {
+  try {
+    const { query, language } = req.body;
+    const result = queryCivicPolicyRAG({ query, language });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('RAG query error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve civic policy: ' + error.message,
+    });
+  }
 };

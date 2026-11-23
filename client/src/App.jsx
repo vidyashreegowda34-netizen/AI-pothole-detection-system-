@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import OfflineBanner from './components/OfflineBanner';
+import AiCivicChatbot from './components/AiCivicChatbot';
 
 import Home from './pages/Home';
 import ReportIssue from './pages/ReportIssue';
@@ -34,6 +35,7 @@ export default function App() {
         </Routes>
       </main>
 
+      <AiCivicChatbot />
       <BottomNav />
     </div>
   );
