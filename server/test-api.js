@@ -46,7 +46,20 @@ async function runTests() {
       }).then((r) => r.json());
       console.log('✅ AI Emergency Phase Analysis:', emergencyRes.assessment.phase, emergencyRes.assessment.hazardBadge);
 
-      // 7. Duplicate Check
+      // 6c. YOLO11n Computer Vision Inference Test
+      const yoloRes = await fetch(`${baseUrl}/ai/yolo11-detect`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageUrl: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7',
+          hintText: 'Deep road crater and pothole near Tumkur bypass',
+        }),
+      }).then((r) => r.json());
+      console.log(`✅ YOLO11n CV Detection: ${yoloRes.data?.model} found ${yoloRes.data?.detectionsCount} pothole(s) with max conf ${(yoloRes.data?.maxConfidence * 100).toFixed(1)}% -> ${yoloRes.data?.emergencyPhase?.hazardBadge}`);
+
+      // 6d. YOLO11n Model Info
+      const yoloInfo = await fetch(`${baseUrl}/ai/yolo-info`).then((r) => r.json());
+      console.log(`✅ YOLO11n Model Info: ${yoloInfo.architecture} (${yoloInfo.parameters})`);
       const dupCheck = await fetch(`${baseUrl}/ai/check-duplicate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

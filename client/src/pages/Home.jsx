@@ -19,6 +19,7 @@ import {
   Flame,
   AlertTriangle,
   Layers,
+  Zap,
 } from 'lucide-react';
 
 export default function Home() {
@@ -101,9 +102,15 @@ export default function Home() {
         <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-orange-500/20 blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center space-x-2 bg-amber-500/30 backdrop-blur-md border border-amber-300/30 px-3 py-1 rounded-full text-xs font-semibold text-amber-100">
-            <ShieldCheck className="w-4 h-4 text-amber-200" />
-            <span>{t('hero.badge')}</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center space-x-2 bg-amber-500/30 backdrop-blur-md border border-amber-300/30 px-3 py-1 rounded-full text-xs font-semibold text-amber-100">
+              <ShieldCheck className="w-4 h-4 text-amber-200" />
+              <span>{t('hero.badge')}</span>
+            </div>
+            <div className="inline-flex items-center space-x-1.5 bg-black/40 backdrop-blur-md border border-amber-400/40 px-3 py-1 rounded-full text-[11px] font-bold font-mono text-amber-300">
+              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <span>{isKannada ? 'ಯೋಲೋ11n ರಸ್ತೆ ಗುಂಡಿ AI ಸಕ್ರಿಯ' : 'YOLO11n AI Vision Assisted'}</span>
+            </div>
           </div>
 
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">

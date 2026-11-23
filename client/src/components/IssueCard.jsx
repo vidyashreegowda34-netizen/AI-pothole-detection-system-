@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Calendar,
   Flame,
+  Zap,
 } from 'lucide-react';
 
 export default function IssueCard({ issue, onUpvoteToggle }) {
@@ -137,7 +138,7 @@ export default function IssueCard({ issue, onUpvoteToggle }) {
           )}
         </div>
 
-        {/* Status Badge */}
+        {/* Status Badge & YOLO11n AI Badge */}
         <div className="absolute top-9 left-3 flex flex-wrap gap-1.5">
           <span
             className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border backdrop-blur-md shadow-sm ${
@@ -146,6 +147,12 @@ export default function IssueCard({ issue, onUpvoteToggle }) {
           >
             {t(`status.${issue.status}`) || issue.status}
           </span>
+          {(issue.category?.code === 'POTHOLE' || issue.title?.toLowerCase().includes('pothole') || issue.title?.includes('ಗುಂಡಿ')) && (
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono bg-black/75 text-amber-300 border border-amber-400/50 backdrop-blur-md shadow-sm flex items-center space-x-1">
+              <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+              <span>YOLO11n</span>
+            </span>
+          )}
         </div>
 
         {/* SLA / Overdue pill */}

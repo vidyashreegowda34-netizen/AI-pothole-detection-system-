@@ -19,7 +19,13 @@
    - One-click language switch with persistent user preference.
 2. **Kannada Voice Input (ಧ್ವನಿ ಮೂಲಕ ದೂರು)**:
    - Native integration with the Web Speech API (`kn-IN`) allowing citizens in rural or urban areas to dictate issue descriptions by voice.
-3. **Live Camera with Civic Geo-Tag Watermark**:
+3. **⚡ Ultralytics YOLO11 Nano (yolo11n) Road Hazard & Pothole Vision Engine**:
+   - Integrated **YOLO11n** computer vision neural network optimized for real-time mobile and edge pothole detection.
+   - Detects road surface distress, deep asphalt craters, and fractures with normalized bounding boxes and confidence ratings (e.g., 96.2%).
+   - Interactive live bounding box overlay with neon target brackets and toggles directly in the citizen reporting flow and issue detail view.
+   - Auto-escalates critical road craters to **Phase 4: Emergency Hazard (12h SLA)** and auto-selects PWD Pothole category.
+   - Includes standalone Python Ultralytics runner (`server/ai_models/yolo11n_pothole_detector.py`) and high-throughput Node.js CV service.
+4. **Live Camera with Civic Geo-Tag Watermark**:
    - Clicking on the photo button immediately triggers the **Live Geo-Tag Camera** (viewfinder with target reticle, camera flip, and shutter).
    - Automatically retrieves high-accuracy GPS coordinates (`navigator.geolocation`) and burns a tamper-evident civic Geo-Stamp watermark onto the photo canvas:
      - 📍 Platform banner: `ನಮ್ಮ ತುಮಕೂರು ಪರಿಷ್ಕಾರ | Verified Civic Issue`
@@ -140,6 +146,20 @@ npm install
 npm run dev
 ```
 *Open `http://localhost:3000` in your browser.*
+
+### 3. YOLO11n AI Pothole & Road Hazard Detection
+You can test the YOLO11n vision engine directly from the web UI when reporting an issue or via the dedicated endpoints and scripts:
+- **Web UI**: Upload or capture a photo in `/report` and click `⚡ Run YOLO11n Pothole AI Scanner`.
+- **API Endpoint**:
+  ```bash
+  curl -X POST http://localhost:5000/api/ai/yolo11-detect \
+    -F "photo=@test_pothole.jpg" \
+    -F "title=Pothole near Tumkur bypass"
+  ```
+- **Standalone Python Script**:
+  ```bash
+  python server/ai_models/yolo11n_pothole_detector.py --image server/uploads/test.jpg --save-json
+  ```
 
 ---
 

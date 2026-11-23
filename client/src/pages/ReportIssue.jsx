@@ -7,6 +7,7 @@ import api from '../api/client';
 import VoiceInput from '../components/VoiceInput';
 import IssueMap from '../components/IssueMap';
 import GeoCameraModal from '../components/GeoCameraModal';
+import YoloVisionOverlay from '../components/YoloVisionOverlay';
 import { stampGeoTagOnImage } from '../utils/geoTag';
 import {
   MapPin,
@@ -21,6 +22,8 @@ import {
   Flame,
   Info,
   ShieldCheck,
+  Zap,
+  Cpu,
 } from 'lucide-react';
 
 export default function ReportIssue() {
@@ -57,6 +60,8 @@ export default function ReportIssue() {
   const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
   const [aiSuggestion, setAiSuggestion] = useState(null);
   const [nearbyDuplicate, setNearbyDuplicate] = useState(null);
+  const [isYoloScanning, setIsYoloScanning] = useState(false);
+  const [yoloResults, setYoloResults] = useState(null);
 
   // Submission State
   const [submitting, setSubmitting] = useState(false);
@@ -220,6 +225,64 @@ export default function ReportIssue() {
       console.error('AI suggest error:', err);
     } finally {
       setIsAiAnalyzing(false);
+    }
+  };
+
+  // Run YOLO11n Computer Vision Inference on Photos
+  const runYoloScan = async () => {
+    if (selectedPhotos.length === 0 && photoPreviews.length === 0) {
+      setErrorMsg(isKannada ? 'ದಯವಿಟ್ಟು ಮೊದಲು ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.' : 'Please take or upload a photo first.');
+      return;
+    }
+
+    setIsYoloScanning(true);
+    setErrorMsg('');
+
+    try {
+      let res;
+      if (selectedPhotos.length > 0) {
+        const formData = new FormData();
+        formData.append('photo', selectedPhotos[0]);
+        formData.append('title', title);
+        formData.append('hintText', description);
+        res = await api.post('/ai/yolo11-detect', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      } else {
+        res = await api.post('/ai/yolo11-detect', {
+          imageUrl: photoPreviews[0],
+          title,
+          hintText: description,
+        });
+      }
+
+      if (res.data.success && res.data.data) {
+        const data = res.data.data;
+        setYoloResults(data);
+
+        // Auto-select Pothole category and escalate emergency phase
+        if (data.detectionsCount > 0) {
+          const potholeCat = categories.find((c) => c.code === 'POTHOLE');
+          if (potholeCat) {
+            setCategoryId(potholeCat.id);
+          }
+          if (data.emergencyPhase?.phase) {
+            setUrgency(data.emergencyPhase.phase);
+          }
+          if (!title.trim()) {
+            setTitle(
+              isKannada
+                ? 'ರಸ್ತೆಯಲ್ಲಿ ಅಪಾಯಕಾರಿ ಗುಂಡಿ ಬಿದ್ದಿದೆ (ಯೋಲೋ11n ಪರಿಶೀಲಿತ)'
+                : 'Severe dangerous pothole on road (YOLO11n verified)'
+            );
+          }
+        }
+      }
+    } catch (err) {
+      console.error('YOLO11n scan error:', err);
+      setErrorMsg(isKannada ? 'ಯೋಲೋ11n ಸ್ಕ್ಯಾನ್ ವಿಫಲವಾಗಿದೆ.' : 'YOLO11n scan failed to process image.');
+    } finally {
+      setIsYoloScanning(false);
     }
   };
 
@@ -468,10 +531,16 @@ export default function ReportIssue() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {photoPreviews.map((url, i) => (
               <div key={i} className="relative aspect-video rounded-2xl overflow-hidden border-2 border-amber-500/50 bg-slate-900 group shadow-sm">
-                <img src={url} alt={`Geo-Tagged preview ${i + 1}`} className="w-full h-full object-cover" />
+                <YoloVisionOverlay
+                  imageUrl={url}
+                  alt={`Geo-Tagged preview ${i + 1}`}
+                  detections={i === 0 && yoloResults?.detections ? yoloResults.detections : []}
+                  isScanning={i === 0 && isYoloScanning}
+                  className="w-full h-full"
+                />
                 
                 {/* Geo-Tag badge on image */}
-                <div className="absolute top-2 left-2 bg-black/75 backdrop-blur-xs text-amber-300 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center space-x-1 border border-amber-400/40">
+                <div className="absolute top-2 left-2 z-20 bg-black/75 backdrop-blur-xs text-amber-300 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center space-x-1 border border-amber-400/40 pointer-events-none">
                   <ShieldCheck className="w-3 h-3 text-emerald-400" />
                   <span>Geo-Tagged</span>
                 </div>
@@ -479,7 +548,7 @@ export default function ReportIssue() {
                 <button
                   type="button"
                   onClick={() => removePhoto(i)}
-                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                  className="absolute top-2 right-2 z-30 w-6 h-6 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors pointer-events-auto"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -504,6 +573,53 @@ export default function ReportIssue() {
               </button>
             )}
           </div>
+
+          {/* YOLO11n Neural Vision AI Scan Button & Detection Panel */}
+          {photoPreviews.length > 0 && (
+            <div className="pt-1 space-y-2">
+              <button
+                type="button"
+                onClick={runYoloScan}
+                disabled={isYoloScanning}
+                className="w-full py-2.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-amber-500/25 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+              >
+                <Zap className={`w-4 h-4 text-yellow-200 ${isYoloScanning ? 'animate-bounce' : ''}`} />
+                <span>
+                  {isYoloScanning
+                    ? (isKannada ? 'ಯೋಲೋ11n ನ್ಯೂರಲ್ ಸ್ಕ್ಯಾನ್ ಆಗುತ್ತಿದೆ...' : 'YOLO11n Neural Vision Scanning...')
+                    : (isKannada ? '⚡ ಯೋಲೋ11n ರಸ್ತೆ ಗುಂಡಿ AI ಸ್ಕ್ಯಾನರ್ ಚಲಾಯಿಸಿ' : '⚡ Run YOLO11n Pothole AI Scanner')}
+                </span>
+                <span className="bg-black/30 text-amber-200 text-[10px] px-2 py-0.5 rounded-full font-mono uppercase">
+                  Nano 640px
+                </span>
+              </button>
+
+              {yoloResults && yoloResults.detectionsCount > 0 && (
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 p-3 rounded-2xl flex items-center justify-between text-xs animate-fade-in shadow-xs">
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+                      ⚡
+                    </div>
+                    <div>
+                      <span className="font-extrabold text-amber-950 block text-xs">
+                        {isKannada
+                          ? `ಯೋಲೋ11n ಪತ್ತೆ: ${yoloResults.detectionsCount} ರಸ್ತೆ ಗುಂಡಿ ಪತ್ತೆಯಾಗಿದೆ (${(yoloResults.maxConfidence * 100).toFixed(1)}% ನಿಖರತೆ)`
+                          : `YOLO11n Verified: ${yoloResults.detectionsCount} Pothole Hazard(s) Detected (${(yoloResults.maxConfidence * 100).toFixed(1)}% Conf)`}
+                      </span>
+                      <span className="text-[11px] text-amber-800">
+                        {isKannada
+                          ? 'ವರ್ಗವನ್ನು ಸ್ವಯಂ "ರಸ್ತೆ ಗುಂಡಿ (PWD)" ಗೆ ಹೊಂದಿಸಲಾಗಿದೆ ಮತ್ತು ತುರ್ತು ಹಂತ 4 ಸಕ್ರಿಯಗೊಂಡಿದೆ.'
+                          : 'Auto-assigned to PWD Pothole category & Emergency Phase 4 SLA activated.'}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="bg-amber-600 text-white font-mono text-[10px] font-bold px-2 py-1 rounded-full shrink-0 shadow-xs">
+                    yolo11n.pt
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Visual Emergency Phase Assessment directly from Picture & Issue */}
           {urgency === 'EMERGENCY' ? (

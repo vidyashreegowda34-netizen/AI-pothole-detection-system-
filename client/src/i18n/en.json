@@ -139,5 +139,17 @@
     "queued": "Offline queued reports waiting for sync",
     "syncNow": "Sync Now",
     "syncedSuccess": "All offline reports have been synchronized successfully!"
+  },
+  "yolo": {
+    "scanButton": "⚡ Run YOLO11n Vision Scan",
+    "scanning": "YOLO11n Scanning Road...",
+    "detectedTitle": "YOLO11n Neural Detection Active",
+    "detectedSummary": "pothole(s) detected with confidence up to",
+    "toggleBoxes": "Toggle YOLO11n Bounding Boxes",
+    "badge": "YOLO11n Verified",
+    "crater": "Deep Crater",
+    "alligatorCrack": "Surface Distress",
+    "phaseEscalation": "Automated Phase Escalation",
+    "modelLabel": "Ultralytics YOLO11n (Nano 640x640)"
   }
 }

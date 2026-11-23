@@ -1,0 +1,13 @@
+# Tumkur District Road Pothole Dataset YAML for YOLO11n Training
+path: ./dataset/tumkur_roads
+train: images/train
+val: images/val
+test: images/test
+
+# Classes for civic road hazards
+names:
+  0: pothole
+  1: alligator_cracking
+  2: deep_crater
+  3: road_shoulder_damage
+  4: sunken_manhole
