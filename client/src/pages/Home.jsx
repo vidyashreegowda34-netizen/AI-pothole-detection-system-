@@ -126,6 +126,14 @@ export default function Home() {
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
+              to="/potholes"
+              className="flex items-center space-x-2 bg-gradient-to-r from-amber-400 to-amber-300 text-slate-950 hover:bg-amber-300 px-5 py-3 rounded-xl font-extrabold text-sm shadow-lg shadow-black/15 active:scale-95 transition-all"
+            >
+              <Zap className="w-4 h-4 fill-slate-950 text-slate-950" />
+              <span>{isKannada ? 'ಗುಂಡಿ AI ವಿಶ್ಲೇಷಕ (ಮಿನಿ ಪ್ರಾಜೆಕ್ಟ್)' : 'AI Pothole Analyzer (Mini Project)'}</span>
+            </Link>
+
+            <Link
               to="/report"
               className="flex items-center space-x-2 bg-white text-amber-900 hover:bg-amber-50 px-5 py-3 rounded-xl font-extrabold text-sm shadow-lg shadow-black/10 active:scale-95 transition-all"
             >
@@ -181,6 +189,39 @@ export default function Home() {
           </Link>
         </div>
       )}
+
+      {/* Mini Project Synopsis Feature Showcase Card */}
+      <section className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-5 sm:p-6 border border-amber-500/30 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="space-y-1.5 max-w-2xl">
+          <div className="flex items-center space-x-2">
+            <span className="bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              CSE Mini Project
+            </span>
+            <span className="text-amber-400 font-mono text-xs font-semibold">
+              YOLO11n + Leaflet + OpenCV
+            </span>
+          </div>
+          <h2 className="text-base sm:text-lg font-black text-white">
+            {isKannada
+              ? 'AI-ಆಧಾರಿತ ರಸ್ತೆ ಗುಂಡಿಗಳ ಪತ್ತೆ, ತೀವ್ರತೆ ಮೌಲ್ಯಮಾಪನ ಮತ್ತು ಭೂ-ಪ್ರಾದೇಶಿಕ ನಿರ್ವಹಣಾ ನಕ್ಷೆ'
+              : 'AI-Based Pothole Detection, Severity Assessment & Geo-Spatial Mapping System'}
+          </h2>
+          <p className="text-xs text-slate-300">
+            {isKannada
+              ? 'ಪ್ರಸ್ತಾವಿತ 8-ಹಂತಗಳ ವಿಧಾನ: ರಸ್ತೆ ಚಿತ್ರಗಳ ಸಂಗ್ರಹ, ಯೋಲೋ ವಸ್ತು ಪತ್ತೆ, ಮೇಲ್ಮೈ ವಿಸ್ತೀರ್ಣ ಅನುಪಾತ %, ಲೀಫ್‌ಲೆಟ್ ನಕ್ಷೆ ಮತ್ತು ನಿರ್ವಹಣಾ ಆದ್ಯತೆಯ ಶ್ರೇಯಾಂಕ.'
+              : '8-stage academic methodology: Automated YOLO vision detection, surface area ratio calculation (Low/Med/High), risk mapping with color-coded pins, SLA maintenance priority ranking, and Pandas analytics.'}
+          </p>
+        </div>
+
+        <Link
+          to="/potholes"
+          className="shrink-0 flex items-center space-x-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 active:scale-95 transition-all"
+        >
+          <Zap className="w-4 h-4 fill-current" />
+          <span>{isKannada ? 'ಗುಂಡಿ AI ಪರೀಕ್ಷಿಸಿ' : 'Launch AI Analyzer'}</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </section>
 
       {/* District Analytics Summary Counter Bar */}
       {summary && (

@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import CctvMonitoring from './pages/CctvMonitoring';
 import IotGrid from './pages/IotGrid';
 import PredictiveRepair from './pages/PredictiveRepair';
+import PotholeAnalyzer from './pages/PotholeAnalyzer';
 
 export default function App() {
   const { isAuthenticated, loading } = useAuth();
@@ -60,6 +61,8 @@ export default function App() {
           <Route path="/cctv" element={<CctvMonitoring />} />
           <Route path="/iot" element={<IotGrid />} />
           <Route path="/predictive" element={<PredictiveRepair />} />
+          <Route path="/potholes" element={<PotholeAnalyzer />} />
+          <Route path="/pothole-analyzer" element={<PotholeAnalyzer />} />
         </Routes>
       </main>
 

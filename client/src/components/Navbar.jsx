@@ -16,6 +16,7 @@ import {
   Video,
   Activity,
   TrendingUp,
+  Zap,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -121,6 +122,19 @@ export default function Navbar() {
             >
               <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
               <span>{i18n.language === 'kn' ? 'ಮುನ್ಸೂಚನೆ' : 'Predictive'}</span>
+            </Link>
+
+            <Link
+              to="/potholes"
+              className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors border ${
+                isActive('/potholes') || isActive('/pothole-analyzer')
+                  ? 'text-amber-800 bg-amber-100 border-amber-300'
+                  : 'text-amber-700 bg-amber-50 hover:bg-amber-100 border-amber-200'
+              }`}
+              title="Mini Project: AI Pothole Detection & Mapping"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
+              <span>{i18n.language === 'kn' ? 'ಗುಂಡಿ AI ವಿಶ್ಲೇಷಕ' : 'AI Pothole Analyzer'}</span>
             </Link>
 
             {!isAuthenticated && (

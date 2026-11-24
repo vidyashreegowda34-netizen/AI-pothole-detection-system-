@@ -11,6 +11,7 @@ const deptRoutes = require('./routes/deptRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const smartCityRoutes = require('./routes/smartCityRoutes');
+const potholeRoutes = require('./routes/potholeRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -50,6 +51,7 @@ app.use('/api/departments', deptRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/smartcity', smartCityRoutes);
+app.use('/api/potholes', potholeRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

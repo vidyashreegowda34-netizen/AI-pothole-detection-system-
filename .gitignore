@@ -13,6 +13,9 @@ client/.env
 server/prisma/*.db
 server/prisma/*.db-journal
 server/dev.db
+backend/*.db
+backend/*.db-journal
+backend/__pycache__/
 
 # Build outputs
 dist/
