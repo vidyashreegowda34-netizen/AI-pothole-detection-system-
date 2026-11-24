@@ -1,7 +1,8 @@
-# 🚀 Namma Parishkara AI
+# 🚀 AI-Based Pothole Detection, Severity Assessment and Geo-Spatial Road Maintenance Mapping System
 
-### Smart Civic Issue Detection & Complaint Automation Platform
+### Namma Parishkara AI — Smart Civic Issue Detection & Complaint Automation Platform
 
+[![Academic Project](https://img.shields.io/badge/Project-Academic%20Mini%20Project-purple.svg)](SYNOPSIS.md)
 ![AI](https://img.shields.io/badge/AI-RAG%20%2B%20Computer%20Vision-blue)
 ![Python](https://img.shields.io/badge/Python-Backend-yellow)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-blue)
@@ -10,6 +11,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-v20+-green.svg)](https://nodejs.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-ORM-5a67d8.svg)](https://prisma.io/)
 [![PWA](https://img.shields.io/badge/PWA-Installable-f59e0b.svg)](https://web.dev/progressive-web-apps/)
+
+> **📄 Official Project Documentation**: Complete academic project synopsis available in [SYNOPSIS.md](SYNOPSIS.md).
 
 ---
 
